@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/FLA-Official/cars-api/internal/db"
-	"github.com/FLA-Official/cars-api/internal/repository"
 )
 
 func main() {
@@ -18,6 +17,4 @@ func main() {
 	fmt.Println("Seeding...")
 	log.Println("Started")
 	fmt.Println("Done!")
-
-	userRepo := repository.NewUserRepo(database)
 }

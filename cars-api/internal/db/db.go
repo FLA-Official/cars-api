@@ -1,26 +1,17 @@
 package db
 
 import (
-	"fmt"
 	"log"
 	"time"
 
+	"github.com/FLA-Official/cars-api/internal/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Init() *gorm.DB {
-	cfg := config.get() //load from /internal/config
-
-	dsn := fmt.Sprintf(
-		"host = %s port=%s user = %s password = %s dbname = %s sslmode = %s",
-		cfg.DBHost,
-		cfg.DBPort,
-		cfg.DBUser,
-		cfg.DBPass,
-		cfg.DBName,
-		cfg.DBSSLMode,
-	)
+	// load DSN string from /internal/config
+	dsn := config.Get("", " ")
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 

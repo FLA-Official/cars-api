@@ -8,9 +8,15 @@ import (
 )
 
 type Config struct {
-	AppName string
-	Port    string
-	DBURL   string
+	AppName   string
+	Port      string
+	DBURL     string
+	DBHost    string
+	DBPort    string
+	DBUser    string
+	DBPass    string
+	DBName    string
+	DBSSLMode string
 }
 
 func Load() *Config {
@@ -20,9 +26,15 @@ func Load() *Config {
 	}
 
 	cfg := &Config{
-		AppName: get("APP_NAME", "MyApp"),
-		Port:    get("PORT", "3000"),
-		DBURL:   get("DB_URL", ""),
+		AppName:   Get("APP_NAME", "MyApp"),
+		Port:      Get("PORT", "3000"),
+		DBURL:     Get("DB_URL", ""),
+		DBHost:    Get("DB_HOST", "localhost"),
+		DBPort:    Get("DB_PORT", "5432"),
+		DBUser:    Get("DB_USER", "postgres"),
+		DBPass:    Get("DB_PASSWORD", ""),
+		DBName:    Get("DB_NAME", "cars_db"),
+		DBSSLMode: Get("DB_SSLMODE", "disable"),
 	}
 
 	// enforce required in production
@@ -33,7 +45,7 @@ func Load() *Config {
 	return cfg
 }
 
-func get(key, def string) string {
+func Get(key, def string) string {
 	if v := os.Getenv(key); v != "" {
 		return v
 	}
