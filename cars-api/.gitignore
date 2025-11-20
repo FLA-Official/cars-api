@@ -1,0 +1,39 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output of Go build
+/bin/
+/out/
+
+# Vendor folder (if using Go modules, usually safe to ignore)
+vendor/
+
+# Go modules
+go.sum
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+#env
+.env
