@@ -1,8 +1,8 @@
 package db
 
 import (
+	"fmt"
 	"log"
-	"time"
 
 	"github.com/FLA-Official/cars-api/internal/config"
 	"gorm.io/driver/postgres"
@@ -10,24 +10,24 @@ import (
 )
 
 func Init() *gorm.DB {
-	// load DSN string from /internal/config
-	dsn := config.Get("", " ")
+	cfg := config.Load()
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
+		cfg.DBHost,
+		cfg.DBUser,
+		cfg.DBPass,
+		cfg.DBName,
+		cfg.DBPort,
+		cfg.DBSSLMode,
+	)
+
+	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal("Failed to connect to DB:", err)
 	}
 
-	sqlDB, err := db.DB()
-	if err != nil {
-		log.Fatal("Failed to get sql.DB from gorm.DB:", err)
-	}
-
-	// Configure connection pool
-	sqlDB.SetMaxOpenConns(25)
-	sqlDB.SetMaxIdleConns(5)
-	sqlDB.SetConnMaxLifetime(time.Hour)
-
-	return db
+	DB = database
+	log.Println("PostgreSQL connected")
 }

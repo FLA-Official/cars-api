@@ -8,13 +8,17 @@ import (
 )
 
 func main() {
-	database := db.Init()
-	db.Connect()
+	db.Init()
+
+	db.ConnectPostgres()
 	fmt.Println("Connecting to DB...")
+
 	db.Migrate()
 	fmt.Println("Migrating...")
+
 	db.Seed()
 	fmt.Println("Seeding...")
+
 	log.Println("Started")
 	fmt.Println("Done!")
 }
