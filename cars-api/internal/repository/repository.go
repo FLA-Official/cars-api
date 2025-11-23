@@ -5,14 +5,30 @@ import (
 	"github.com/FLA-Official/cars-api/internal/models"
 )
 
+// CarRepository defined repository behaviour for cars
+type CarRepository interface {
+	CreateCar(car *models.Car) error
+	GetCarByID(id uint) (*models.Car, error)
+	GetAllcars() ([]models.Car, error)
+	UpdateCar(id uint, updateCar *models.Car) error
+	DeleteCar(id uint) error
+}
+
+// carRepository is the GORM implementation of CarRepository
+type carRepository struct{}
+
+func NewCarRepository() CarRepository {
+	return &carRepository{}
+}
+
 // create a new car
-func CreateCar(car *models.Car) error {
+func (r *carRepository) CreateCar(car *models.Car) error {
 	result := db.DB.Create(car)
 	return result.Error
 }
 
 // get a car by ID
-func GetCarByID(id uint) (*models.Car, error) {
+func (r *carRepository) GetCarByID(id uint) (*models.Car, error) {
 	var car models.Car
 	result := db.DB.First(&car, id)
 	if result.Error != nil {
@@ -22,13 +38,13 @@ func GetCarByID(id uint) (*models.Car, error) {
 }
 
 // Get all cars
-func GetAllcars() ([]models.Car, error) {
+func (r *carRepository) GetAllcars() ([]models.Car, error) {
 	var cars []models.Car
 	result := db.DB.Find(&cars)
 	return cars, result.Error
 }
 
-func UpdateCar(id uint, updateCar *models.Car) error {
+func (r *carRepository) UpdateCar(id uint, updateCar *models.Car) error {
 	var car models.Car
 	if err := db.DB.First(&car, id).Error; err != nil {
 		return err
@@ -45,6 +61,6 @@ func UpdateCar(id uint, updateCar *models.Car) error {
 }
 
 // Delete a car by ID
-func DeleteCar(id uint) error {
+func (r *carRepository) DeleteCar(id uint) error {
 	return db.DB.Delete(&models.Car{}, id).Error
 }

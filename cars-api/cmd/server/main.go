@@ -8,9 +8,7 @@ import (
 )
 
 func main() {
-	db.Init()
-
-	db.ConnectPostgres()
+	db.Init() // connecting through postgres database
 	fmt.Println("Connecting to DB...")
 
 	db.Migrate()

@@ -30,4 +30,6 @@ func Init() *gorm.DB {
 
 	DB = database
 	log.Println("PostgreSQL connected")
+
+	return DB
 }
